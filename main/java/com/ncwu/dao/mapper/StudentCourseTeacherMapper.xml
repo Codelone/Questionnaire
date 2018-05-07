@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ncwu.dao.StudentCourseDao">
+
+  <resultMap id="BaseResultMap" type="com.ncwu.model.StudentCourse">
+    <!--
+      WARNING - @mbggenerated
+    -->
+    <id column="student_course_id" jdbcType="INTEGER" property="studentCourseId" />
+    <result column="student_class" jdbcType="INTEGER" property="studentClass" />
+    <result column="teacher_course_id" jdbcType="INTEGER" property="courseId" />
+
+  </resultMap>
+</mapper>

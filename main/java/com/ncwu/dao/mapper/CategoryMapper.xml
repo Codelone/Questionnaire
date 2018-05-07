@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ncwu.dao.CategoryDao">
+  <resultMap id="BaseResultMap" type="com.ncwu.model.Category">
+    <!--
+      WARNING - @mbggenerated
+    -->
+    <id column="category_id" jdbcType="INTEGER" property="categoryId" />
+    <result column="category_name" jdbcType="VARCHAR" property="categoryName" />
+    <result column="count"  property="count" />
+  </resultMap>
+  
+  <select id="selectListAndCount" resultMap="BaseResultMap">
+  	select c.*,COUNT(course.category_id) count
+	from category c, course
+	where c.category_id = course.category_id
+	GROUP BY course.category_id
+  </select>
+  
+</mapper>

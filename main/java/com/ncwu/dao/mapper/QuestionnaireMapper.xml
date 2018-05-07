@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ncwu.dao.QuestionnaireDao">
+  <resultMap id="BaseResultMap" type="com.ncwu.model.Questionnaire">
+    <!--
+      WARNING - @mbggenerated
+    -->
+    <id column="questionnaire_id" jdbcType="INTEGER" property="questionnaireId" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="teacher_id" jdbcType="INTEGER" property="teacherId" />
+    <result column="course_id" jdbcType="INTEGER" property="courseId" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+    	<association property="course" javaType="com.ncwu.model.Course">
+          <id column="course_id" property="courseId"/>
+          <result column="course_name" property="courseName"/>
+        </association>
+  </resultMap>
+
+	<select id="selectQuestionnaireForWrite" resultMap="BaseResultMap">
+		SELECT DISTINCT
+	q.*, c.course_name
+FROM
+	(
+		SELECT
+			q.questionnaire_id,
+			q.course_id
+		FROM
+			student_course sc,
+			teacher_course tc,
+			student s,
+			questionnaires q
+		WHERE
+			sc.teacher_course_id = tc.teacher_course_id
+		AND s.student_class = sc.student_class
+		AND q.teacher_id = tc.teacher_id
+		AND s.student_number = #{param1}
+		AND (
+			q.questionnaire_id,
+			q.course_id
+		) NOT IN (
+			SELECT
+				q.questionnaire_id,
+				q.course_id
+			FROM
+				questionnaires q,
+				answer a
+			WHERE
+				q.questionnaire_id = a.questionnaire_id
+			AND a.student_number = #{param1}
+		)
+	) a,
+	questionnaires q,
+	course c
+WHERE
+	q.questionnaire_id = a.questionnaire_id
+AND a.course_id = c.course_id
+AND q.`status` = 2
+	</select>
+	
+	<select id="selectByStatus" resultMap="BaseResultMap" parameterType="com.ncwu.vo.QuestionnaireQuery">
+		select q.*,c.course_name
+		from questionnaires q,course c
+		where q.course_id = c.course_id and STATUS = #{status}
+		<if test="teacherId != null">
+			and TEACHER_ID = #{teacherId}
+		</if>
+		<if test="questionnaireId != null">
+			and questionnaire_id = #{questionnaireId}
+		</if>
+		
+		<if test="beginTime != null">
+			and createtime &gt;= #{beginTime}
+		</if>
+		<if test="endTime != null">
+			and createtime &lt;= #{endTime}
+		</if>
+		<if test="courseId != null">
+			and q.course_id = #{courseId}
+		</if>
+	</select>
+	
+	
+</mapper>
+  

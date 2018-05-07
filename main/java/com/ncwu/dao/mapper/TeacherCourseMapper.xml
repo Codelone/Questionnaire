@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD 
+ Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ncwu.dao.TeacherCourseDao">
+  <resultMap id="BaseResultMap" type="com.ncwu.model.TeacherCourse">
+    <!--
+      WARNING - @mbggenerated
+    -->
+    <id column="teacher_course_id" jdbcType="INTEGER" property="teacherCourseId" />
+    <result column="teacher_id" jdbcType="INTEGER" property="teacherId" />    
+    <result column="course_id" jdbcType="INTEGER" property="courseId" />
+    <result column="course_name" jdbcType="INTEGER" property="courseName" />
+
+  </resultMap>
+	<insert id="insertOne" parameterType="com.ncwu.model.TeacherCourse">
+		insert into teacher_course(teacher_id,course_id)
+		values(#{teacherId},#{courseId})
+	</insert>
+	<select id="selectCourse" resultMap="BaseResultMap">
+		select tc.*,c.course_name
+		from teacher_course tc,course c
+		where tc.course_id=c.course_id
+		and tc.teacher_id=#{param1}
+	</select>
+	
+	<select id="selectCourseCount" resultType="Integer">
+		select count(*) 
+		from teacher_course
+		where course_id = #{courseId}
+	</select>
+	<select id="selectCountByTeacherId" resultType="Integer">
+		select count(*) 
+		from teacher_course
+		where teacher_id = #{teacherId}
+	</select>
+	
+</mapper>

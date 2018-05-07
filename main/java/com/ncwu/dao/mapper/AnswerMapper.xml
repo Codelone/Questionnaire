@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ncwu.dao.AnswerDao">
+  <resultMap id="BaseResultMap" type="com.ncwu.model.Answer">
+    <!--
+      WARNING - @mbggenerated
+    -->
+    <id column="answer_id" jdbcType="INTEGER" property="answerId" />
+    <result column="questionnaire_id" jdbcType="INTEGER" property="questionnaireId" />
+    <result column="student_number" jdbcType="INTEGER" property="studentNumber" />
+    <result column="answer_content" jdbcType="VARCHAR" property="answerContent" />
+  </resultMap>
+</mapper>
+
+  

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ncwu.dao.CourseDao">
+  <resultMap id="BaseResultMap" type="com.ncwu.model.Course">
+    <!--
+      WARNING - @mbggenerated
+    -->
+    <id column="course_id" jdbcType="INTEGER" property="courseId" />
+    <result column="course_name" jdbcType="VARCHAR" property="courseName" />
+    <result column="category_id" jdbcType="INTEGER" property="categoryId" />
+  </resultMap>
+  
+  <select id="selectCourseByTeacher" resultMap="BaseResultMap" >  
+    select c.*
+	from teacher_course t,course c
+	where t.course_id = c.course_id
+	and t.teacher_id = #{teacherId}      
+  </select>
+</mapper>
